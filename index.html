@@ -66,16 +66,6 @@
          body.dark .category-tab.active:hover {
              background-color: var(--category-btn-dark-blue-hover); /* Albastru închis hover pentru activ */
          }
-         /* Stil dark mode pentru butonul Ghid Extra (dacă se dorește alt stil) */
-         /*
-         body.dark .guide-extra-button {
-             background-color: var(--guide-extra-btn-color);
-             color: white;
-         }
-         body.dark .guide-extra-button:hover {
-             background-color: var(--guide-extra-btn-hover-color);
-         }
-         */
 
         /* --- Stiluri Butoane Categorie --- */
         .category-tab {
@@ -98,19 +88,93 @@
             color: black;
         }
         /* Stil pentru butonul Ghid Extra (folosim același stil ca .category-tab) */
-        .guide-extra-button {
-             /* Moștenește stilurile de la .category-tab sau definește altele */
-             /* Exemplu de culoare diferită: */
-             /* background-color: var(--guide-extra-btn-color); */
-        }
-        .guide-extra-button:hover {
-             /* Exemplu: */
-             /* background-color: var(--guide-extra-btn-hover-color); */
-        }
+        .guide-extra-button { }
+        .guide-extra-button:hover { }
 
         /* Containerul pentru butoanele de categorie */
-        .category-button-container {
-            /* Tailwind classes: flex flex-wrap gap-5 justify-start mt-5 mb-6 */
+        .category-button-container { }
+
+
+        /* --- Stiluri Banner Publicitar --- */
+        #ad-banner {
+          text-align: center;
+          padding: 15px;
+          background-color: rgba(0, 51, 102, 0.8); /* Fundal banner */
+          color: #ffd700; /* Culoare text banner (auriu) */
+          margin: 20px auto 10px auto; /* Adăugat margine sus */
+          max-width: 1400px;
+          border-radius: 5px;
+          border: 1px solid #ffd700; /* Bordură banner */
+          font-size: 1.2rem;
+          font-weight: bold;
+          min-height: 1.5em; /* Înălțime minimă pentru a evita colapsul */
+          cursor: default;
+          position: relative;
+          overflow: hidden;
+          animation: pulse 3s infinite ease-in-out; /* Animație pulsare fundal */
+        }
+
+        @keyframes pulse {
+          0% { box-shadow: 0 0 10px 0px rgba(255, 215, 0, 0.5); }
+          50% { box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.7); }
+          100% { box-shadow: 0 0 10px 0px rgba(255, 215, 0, 0.5); }
+        }
+
+        #ad-banner .text-glow {
+          animation: textGlow 2s ease-in-out infinite alternate; /* Animație strălucire text */
+        }
+
+        @keyframes textGlow {
+          from {
+            text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700;
+          }
+          to {
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ff9900;
+          }
+        }
+
+        .cursor { /* Stil cursor blink */
+          display: inline-block;
+          width: 3px;
+          height: 1.2em;
+          background-color: #ffd700; /* Culoare cursor */
+          margin-left: 2px;
+          animation: blink 1s infinite;
+          vertical-align: bottom;
+        }
+
+        @keyframes blink {
+          0%, 49% { opacity: 1; }
+          50%, 100% { opacity: 0; }
+        }
+
+        /* Dark Mode Variante pentru Banner */
+        body.dark #ad-banner { /* Corectat selectorul */
+          background-color: rgba(68, 68, 68, 0.8);
+          border-color: #777;
+          animation: pulseDark 3s infinite ease-in-out;
+        }
+
+        @keyframes pulseDark {
+          0% { box-shadow: 0 0 10px 0px rgba(119, 119, 119, 0.5); }
+          50% { box-shadow: 0 0 20px 5px rgba(119, 119, 119, 0.7); }
+          100% { box-shadow: 0 0 10px 0px rgba(119, 119, 119, 0.5); }
+        }
+
+        body.dark #ad-banner .cursor { /* Corectat selectorul */
+          background-color: #ddd;
+        }
+
+        /* Pauză animație la hover */
+        #ad-banner:hover {
+          animation-play-state: paused;
+        }
+
+        #ad-banner:hover .text-glow {
+          animation-play-state: paused;
+        }
+        #ad-banner:hover .cursor { /* Oprește și cursorul la hover */
+            animation-play-state: paused;
         }
 
 
@@ -124,12 +188,12 @@
         .warning-container { border-left: 4px solid var(--warning-color); }
         .record-button { transition: all 0.3s ease; }
         .record-button.recording { background-color: var(--error-color); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        /* Keyframe pulse a fost deja definit mai sus */
         #recordingIndicator { transition: opacity 0.3s ease; }
         .highlight-text { background-color: rgba(93, 92, 222, 0.1); padding: 0 2px; border-radius: 2px; }
         .audio-player { width: 100%; margin-top: 8px; }
         .blinking { animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        /* Keyframe blink a fost deja definit mai sus */
         .feedback-container { transition: all 0.3s ease; }
         .question-list { max-height: calc(100vh - 350px); overflow-y: auto; }
         .progress-container { height: 6px; background-color: #e2e8f0; border-radius: 3px; overflow: hidden; }
@@ -170,6 +234,10 @@
             </div>
             <p class="text-gray-600 max-w-2xl mx-auto">Exersează răspunsurile pentru MPU și îmbunătățește-le cu exemple personale detaliate!</p>
         </header>
+
+        <div id="ad-banner">
+          <span class="text-glow"></span><span class="cursor"></span>
+        </div>
 
         <div class="category-button-container flex flex-wrap gap-5 justify-start mt-5 mb-6">
             <button class="category-tab active" data-category="all">Toate</button>
@@ -322,7 +390,7 @@
                             Următoarea întrebare
                         </button>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -356,7 +424,7 @@
                             <li>Acum sunt capabil să conduc responsabil</li>
                         </ul>
                        <div class="image-wrapper">
-                        <img src='https://cdn.gamma.app/fhpleqvbjim2f32/9492d165359e4bfbbd64372f0d6ddb3b/original/image.png' alt='[Image of MPU Pregătire]' class='answer-image'>
+                        <img src='https://cdn.gamma.app/fhpleqvbjim2f32/9492d165359e4bfbbd64372f0d6ddb3b/original/image.png' alt='[Imagine cu MPU Pregătire]' class='answer-image'>
                          </div>
                       <div style="text-align: center;">
                        <button class="btn btn-special" onclick="window.open('https://chatgpt.com/g/g-675b4ab62c108191a1479b587cf22131-asistentdinamicmincu', '_blank')">
@@ -374,7 +442,7 @@
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/Ve3jDM9v5eg?si=OobRcabjNSk7X3d7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <div class="image-wrapper">
-                <img src='https://i.imgur.com/AVJoo7t.jpeg' alt='[Image of Autorități îngrijorate]' class='answer-image'>
+                <img src='https://i.imgur.com/AVJoo7t.jpeg' alt='[Imagine cu Autorități îngrijorate]' class='answer-image'>
                  </div>
                 `,
                 "category": "intro"
@@ -401,7 +469,7 @@
                 </ul>
                 <p><strong>Total consumat:</strong> 14 sticle de bere și 0,5 Litri de vodcă.</p>
                 <div class="image-wrapper">
-                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/8bf801eaec5a49d896ce30cabf5957df/original/Screenshot-2025-02-12-183548.jpg' alt='[Image of Descriere delict]' class='answer-image'>
+                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/8bf801eaec5a49d896ce30cabf5957df/original/Screenshot-2025-02-12-183548.jpg' alt='[Imagine cu Descriere delict]' class='answer-image'>
                 </div>
                 `,
                 "category": "incident"
@@ -423,7 +491,7 @@
                 <p><strong>Am vrut inițial să las mașină acolo unde a fost parcată, dar m-am hotărât, \n\ndin confort, să conduc spre casă. <strong></p>
                 <p>Decizia, clar, a fost greșită și iresponsabilă, am făcut ceva ilegal, conducând sub influența alcoolului. Am făcut un accident!</p>
                <div class="image-wrapper">
-              <img src='https://cdn.gamma.app/fhpleqvbjim2f32/9c7de0553ad94030b938d6a9348f4f90/original/Screenshot-2025-02-12-195751.jpg' alt='[Image of Decizie greșită]' class='answer-image'>
+              <img src='https://cdn.gamma.app/fhpleqvbjim2f32/9c7de0553ad94030b938d6a9348f4f90/original/Screenshot-2025-02-12-195751.jpg' alt='[Imagine cu Decizie greșită]' class='answer-image'>
              </div>
                 `,
                 "category": "incident"
@@ -449,7 +517,7 @@
                 <p>Mai ales periculos pentru că nu sunt asigurat</p>
                 <p>Dacă fac accident sub influența alcoolului.</p>
                 <div class="image-wrapper">
-                    <img src='https://i.imgur.com/1EiYKpC.jpeg' alt='[Image of Efecte alcool conducere]' class='answer-image'>
+                    <img src='https://i.imgur.com/1EiYKpC.jpeg' alt='[Imagine cu Efecte alcool conducere]' class='answer-image'>
                 </div>
                 `,
                 "category": "alcohol"
@@ -472,7 +540,7 @@
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/iv6VNDkzrnk?si=IGa18429gDWiHEvO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <div class="image-wrapper">
-                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/2ee284b916b9450b8850363064bc479e/original/SENTIMENTEFLORIN.jpg' alt='[Image of Gânduri după delict]' class='answer-image'>
+                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/2ee284b916b9450b8850363064bc479e/original/SENTIMENTEFLORIN.jpg' alt='[Imagine cu Gânduri după delict]' class='answer-image'>
                 </div>
                 `,
                 "category": "incident"
@@ -492,7 +560,7 @@
                 </ul>
                 <p>Am realizat că o schimbare este necesară și vreau să mențin această schimbare permanent.</p>
                 <div class="image-wrapper">
-                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/51b9bfd8f7b64780a6d9042190c921dd/original/PunctDeCotitura.png' alt='[Image of Punct de cotitură]' class='answer-image'>
+                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/51b9bfd8f7b64780a6d9042190c921dd/original/PunctDeCotitura.png' alt='' class='answer-image'>
                 </div>
                 `,
                 "category": "recovery"
@@ -508,7 +576,7 @@
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/i5JX-nH-76M?si=fgJf7CFKBPwaq7OA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <div class="image-wrapper">
-                    <img src='https://i.imgur.com/ZHdzos1.jpeg' alt='[Image of Motive renunțare alcool]' class='answer-image'>
+                    <img src='https://i.imgur.com/ZHdzos1.jpeg' alt='' class='answer-image'>
                 </div>
                 `,
                 "category": "recovery"
@@ -543,7 +611,7 @@
                 <p><strong>Cantități maxime:</strong></p>
                 <p>La fiecare 4 luni consumam 8 litri de bere și o jumătate de sticlă de tărie, aproximativ de 4 ori pe an.</p>
                 <div class="image-wrapper">
-                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/02464c5eac4a48f190a112e6129b9ec4/original/Cat-si-cat-de-des-ati-consumat-Trecut.png' alt='[Image of Consum alcool trecut]' class='answer-image'>
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/02464c5eac4a48f190a112e6129b9ec4/original/Cat-si-cat-de-des-ati-consumat-Trecut.png' alt='' class='answer-image'>
                 </div>
                 <iframe src="https://zaha175.github.io/ConsumINTIMP/" width="100%" height="400px" style="border:none;"></iframe>
                 <div style="text-align: center;">
@@ -619,7 +687,7 @@
                     <li><strong>Weekendurile, care înainte erau pierdute cu băutura,</strong> le petrec acum cu familia sau făcând lucruri care chiar mă bucură.</li>
                 </ul>
                 <div class="image-wrapper">
-                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/be381117a46545ff9fb2d00d4fb14d51/original/SchimbariiMinca.jpg' alt='[Image of Schimbări pozitive]' class='answer-image'>
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/be381117a46545ff9fb2d00d4fb14d51/original/SchimbariiMinca.jpg' alt='' class='answer-image'>
                 </div>
                 `,
                 "category": "recovery"
@@ -709,7 +777,7 @@
                     <li><strong>Pentru că nu mai vreau să pun în pericol viața mea nouă.</strong></li>
                 </ul>
                  <div class="image-wrapper">
-                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/572d6b7e24b645c4bd2f7435d5ff3ae4/original/Carnetul1.jpg' alt='[Image of Permis de conducere]' class='answer-image'>
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/572d6b7e24b645c4bd2f7435d5ff3ae4/original/Carnetul1.jpg' alt='' class='answer-image'>
                 </div>
                 `,
                 "category": "future"
@@ -723,7 +791,7 @@
                     <li><strong>Sunt recunoscător pentru asta!</strong></li>
                 </ul>
                  <div class="image-wrapper">
-                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/58053d2e741140639a73bbce062cb702/original/Screenshot-2024-06-13-194929.jpg' alt='[Image of Încheiere]' class='answer-image'>
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/58053d2e741140639a73bbce062cb702/original/Screenshot-2024-06-13-194929.jpg' alt='' class='answer-image'>
                 </div>
                 `,
                 "category": "future"
@@ -1060,49 +1128,12 @@
             // Inițializare: Arată toate întrebările
             showQuestionsByCategory('all');
             updateTotalQuestions();
-            // Generare butoane categorie dinamic (dacă se dorește, deși sunt deja în HTML)
-            // generateCategoryButtons();
+
+            // Inițializare Banner Publicitar (după ce DOM-ul e gata)
+            initializeAdBanner();
         });
 
-        // --- Funcții JavaScript (majoritatea neschimbate) ---
-
-        // Generare butoane categorie (opțional, dacă nu sunt hardcodate în HTML)
-        /*
-        function generateCategoryButtons() {
-            const container = document.querySelector('.category-button-container');
-            container.innerHTML = ''; // Clear existing buttons if any
-
-            const categories = ['all', 'intro', 'incident', 'alcohol', 'recovery', 'future'];
-            const categoryLabels = {
-                'all': 'Toate', 'intro': 'Introducere', 'incident': 'Incident',
-                'alcohol': 'Alcool', 'recovery': 'Recuperare', 'future': 'Viitor'
-            };
-
-            categories.forEach(category => {
-                const button = document.createElement('button');
-                button.className = 'category-tab';
-                button.setAttribute('data-category', category);
-                button.textContent = categoryLabels[category];
-                if (category === 'all') {
-                    button.classList.add('active'); // Set 'all' as active initially
-                }
-                button.addEventListener('click', function() {
-                    currentCategory = category;
-                    document.querySelectorAll('.category-button-container .category-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    showQuestionsByCategory(category);
-                     document.getElementById('searchInput').value = '';
-                });
-                container.appendChild(button);
-            });
-             // Adaugă butonul Ghid Extra
-             const guideButton = document.createElement('button');
-             guideButton.className = 'category-tab guide-extra-button';
-             guideButton.textContent = 'Ghid Răspunsuri';
-             guideButton.onclick = () => window.open('https://zaha175.github.io/GHIDPENTRURASPUNSURI/', '_blank');
-             container.appendChild(guideButton);
-        }
-        */
+        // --- Funcții JavaScript (majoritatea neschimbate, cu excepția bannerului) ---
 
         function showQuestionsByCategory(category) {
             const questionList = document.getElementById('questionList');
@@ -1119,7 +1150,6 @@
                 const questionCard = createQuestionCard(question);
                 questionList.appendChild(questionCard);
             });
-             // Scroll to top of list
             questionList.scrollTop = 0;
         }
 
@@ -1133,7 +1163,7 @@
             if (searchTerm) {
                 filteredQuestions = filteredQuestions.filter(q =>
                     q.question.toLowerCase().includes(searchTerm) ||
-                    q.answer.toLowerCase().includes(searchTerm) // Căutare și în răspunsuri
+                    q.answer.toLowerCase().includes(searchTerm)
                 );
             }
 
@@ -1149,31 +1179,24 @@
 
         function createQuestionCard(question) {
             const card = document.createElement('div');
-            // Adăugăm un ID unic bazat pe întrebare pentru a-l putea actualiza
             const questionId = 'card-' + question.question.replace(/\s+/g, '-').toLowerCase().substring(0, 30);
             card.id = questionId;
             card.className = 'question-card bg-gray-50 rounded-lg p-4 hover:bg-gray-100 cursor-pointer';
-
-            card.innerHTML = generateCardContent(question); // Folosim o funcție separată
-
+            card.innerHTML = generateCardContent(question);
             card.addEventListener('click', () => showQuestionDetail(question));
             return card;
         }
 
-        // Funcție separată pentru generarea conținutului cardului (pentru actualizare ușoară)
         function generateCardContent(question) {
              let statusIndicator = '';
-            // Prioritize 'Salvat' status visually
             if (savedAnswers[question.question]) {
                 statusIndicator = `<span class="status-indicator inline-block px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 ml-2">Salvat</span>`;
-            } else if (recordedAnswers[question.question] && recordedAnswers[question.question] !== false) { // Check if it's a valid recording URL
+            } else if (recordedAnswers[question.question] && recordedAnswers[question.question] !== false) {
                 statusIndicator = `<span class="status-indicator inline-block px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 ml-2">Înregistrat</span>`;
             } else if (answeredQuestions.has(question.question)) {
                 statusIndicator = `<span class="status-indicator inline-block px-2 py-1 text-xs rounded-full bg-gray-200 text-gray-700 ml-2">Vizualizat</span>`;
             }
-
             const categoryLabel = getCategoryLabel(question.category);
-
             return `
                 <div class="flex justify-between items-start">
                     <span class="inline-block px-2 py-1 text-xs rounded-full bg-indigo-100 text-indigo-800 mb-2">${categoryLabel}</span>
@@ -1183,7 +1206,6 @@
             `;
         }
 
-        // Funcție pentru actualizarea statusului pe un card specific
         function updateQuestionCardStatus(questionText) {
              const questionId = 'card-' + questionText.replace(/\s+/g, '-').toLowerCase().substring(0, 30);
              const cardElement = document.getElementById(questionId);
@@ -1194,7 +1216,6 @@
                  }
              }
         }
-
 
         function showQuestionDetail(question) {
             currentQuestion = question;
@@ -1220,10 +1241,8 @@
             if (!answeredQuestions.has(question.question)) {
                 answeredQuestions.add(question.question);
                 updateProgress();
-                // Update card status immediately after viewing
-                 updateQuestionCardStatus(question.question);
+                updateQuestionCardStatus(question.question);
             }
-             // Scroll to top of detail view
             document.getElementById('questionDetail').scrollTop = 0;
         }
 
@@ -1234,7 +1253,6 @@
 
         function showNextQuestion() {
             if (!currentQuestion) return;
-             // Filter current list based on category and search term
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             let currentList = currentCategory === 'all'
                 ? qa_data
@@ -1245,17 +1263,14 @@
                     q.answer.toLowerCase().includes(searchTerm)
                 );
             }
-
             const currentIndex = currentList.findIndex(q => q.question === currentQuestion.question);
-            if (currentIndex === -1 || currentList.length === 0) return; // Should not happen if currentQuestion is valid
-
+            if (currentIndex === -1 || currentList.length === 0) return;
             const nextIndex = (currentIndex + 1) % currentList.length;
             showQuestionDetail(currentList[nextIndex]);
         }
 
         function showPreviousQuestion() {
             if (!currentQuestion) return;
-             // Filter current list based on category and search term
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             let currentList = currentCategory === 'all'
                 ? qa_data
@@ -1266,10 +1281,8 @@
                     q.answer.toLowerCase().includes(searchTerm)
                 );
             }
-
             const currentIndex = currentList.findIndex(q => q.question === currentQuestion.question);
              if (currentIndex === -1 || currentList.length === 0) return;
-
             const prevIndex = (currentIndex - 1 + currentList.length) % currentList.length;
             showQuestionDetail(currentList[prevIndex]);
         }
@@ -1332,7 +1345,7 @@
 
         function updateTotalQuestions() {
             const totalQuestions = qa_data.length;
-            const answeredCount = answeredQuestions.size; // Initial count
+            const answeredCount = answeredQuestions.size;
             document.getElementById('answeredQuestions').textContent = `${answeredCount}/${totalQuestions}`;
         }
 
@@ -1342,13 +1355,11 @@
             document.getElementById('answeredQuestions').textContent = `${answeredCount}/${totalQuestions}`;
             const progressBar = document.getElementById('progressBar');
             progressBar.style.width = totalQuestions > 0 ? `${(answeredCount / totalQuestions) * 100}%` : '0%';
-
             updateRecordedAnswersCount();
             updateSavedAnswersCount();
         }
 
         function updateRecordedAnswersCount() {
-             // Count only valid recording URLs, not 'false' placeholders
             const recordedCount = Object.values(recordedAnswers).filter(val => val && val !== false).length;
             document.getElementById('recordedAnswers').textContent = recordedCount;
         }
@@ -1357,6 +1368,96 @@
             const savedCount = Object.keys(savedAnswers).length;
             document.getElementById('savedAnswers').textContent = savedCount;
         }
+
+        // --- JavaScript pentru Banner Publicitar ---
+        let adBannerTimeoutId = null; // Variabilă pentru a controla timeout-ul
+
+        // Funcția Typewriter pentru banner
+        function typeWriter(textElement, cursorElement, text, speed = 70, eraseDelay = 3000) { // Viteză și delay ajustate
+            let i = 0;
+            textElement.innerHTML = "";
+            cursorElement.style.display = "inline-block"; // Afișează cursorul
+            // Oprește orice timeout anterior pentru a evita suprapuneri
+            if (adBannerTimeoutId) clearTimeout(adBannerTimeoutId);
+
+            function typing() {
+                if (i < text.length) {
+                    textElement.innerHTML += text.charAt(i);
+                    i++;
+                    adBannerTimeoutId = setTimeout(typing, speed);
+                } else {
+                    // După ce a terminat de scris, așteaptă înainte de a șterge
+                    adBannerTimeoutId = setTimeout(eraseText, eraseDelay);
+                }
+            }
+
+            function eraseText() {
+                if (textElement.innerHTML.length > 0) {
+                    textElement.innerHTML = textElement.innerHTML.substring(0, textElement.innerHTML.length - 1);
+                    adBannerTimeoutId = setTimeout(eraseText, speed / 2); // Șterge mai repede
+                } else {
+                    // Când textul e șters, trece la următorul
+                    cursorElement.style.display = "none"; // Ascunde cursorul înainte de a schimba textul
+                    adBannerTimeoutId = setTimeout(nextAdText, 500); // Pauză scurtă înainte de următorul text
+                }
+            }
+
+            typing(); // Începe scrierea
+        }
+
+        // Mesajele pentru banner (sfaturile MPU)
+        const adMessages = [
+          "Exersează răspunsurile MPU cu exemple personale detaliate!",
+          "Ia-ți timp să te gândești. O pauză scurtă înainte de a răspunde pare mai naturală.",
+          "Folosește formulări precum 'Am învățat că...' sau 'Am experimentat...' în loc de 'Trebuie să...'",
+          "Evită să răspunzi prea rapid sau să folosești excesiv termeni tehnici."
+        ];
+
+        let currentAdIndex = 0;
+        let textGlowElement = null; // Inițializăm cu null
+        let cursorElement = null;   // Inițializăm cu null
+
+        function nextAdText() {
+          if (!textGlowElement || !cursorElement) return; // Verifică dacă elementele există
+          currentAdIndex = (currentAdIndex + 1) % adMessages.length;
+          typeWriter(textGlowElement, cursorElement, adMessages[currentAdIndex]);
+        }
+
+        // Funcție de inițializare specifică pentru banner
+        function initializeAdBanner() {
+            textGlowElement = document.querySelector("#ad-banner .text-glow");
+            cursorElement = document.querySelector("#ad-banner .cursor");
+
+            // Verifică dacă elementele bannerului există înainte de a porni
+            if (textGlowElement && cursorElement) {
+                // Oprește animațiile la hover pe banner
+                const adBanner = document.getElementById("ad-banner");
+                adBanner.addEventListener("mouseenter", () => {
+                    if (textGlowElement) textGlowElement.style.animationPlayState = "paused";
+                    if (cursorElement) cursorElement.style.animationPlayState = "paused";
+                    // Oprește și timeout-ul de scriere/ștergere
+                    if (adBannerTimeoutId) clearTimeout(adBannerTimeoutId);
+                });
+
+                adBanner.addEventListener("mouseleave", () => {
+                    if (textGlowElement) textGlowElement.style.animationPlayState = "running";
+                    if (cursorElement) cursorElement.style.animationPlayState = "running";
+                    // Repornește scrierea/ștergerea de unde a rămas (sau începe următorul ciclu)
+                    // Aici, vom relua ciclul complet pentru simplitate
+                    if (adBannerTimeoutId) clearTimeout(adBannerTimeoutId); // Oprește orice timeout vechi
+                    // Reluăm cu textul curent, dar fără delay inițial mare
+                    typeWriter(textGlowElement, cursorElement, adMessages[currentAdIndex], 70, 500); // Delay mic la reluare
+                });
+
+                // Pornește animația bannerului
+                typeWriter(textGlowElement, cursorElement, adMessages[0]);
+            } else {
+                console.error("Elementele bannerului (#ad-banner .text-glow sau .cursor) nu au fost găsite!");
+            }
+        }
+
+        // Restul codului JavaScript al aplicației rămâne neschimbat...
+
     </script>
 </body>
 </html>
