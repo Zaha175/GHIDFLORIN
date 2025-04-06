@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPU Pregătire - Întrebări și Răspunsuri</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #5D5CDE;
+            --secondary-color: #4B4AAA;
+            --success-color: #48BB78;
+            --warning-color: #ED8936;
+            --error-color: #F56565;
+            --light-bg: #FFFFFF;
+            --dark-bg: #181818;
+            --light-text: #333333;
+            --dark-text: #F0F0F0;
+        }
+
+        body.dark {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body.dark .bg-white {
+            background-color: #222 !important;
+        }
+
+        body.dark .bg-gray-100 {
+            background-color: #2a2a2a !important;
+        }
+
+        body.dark .text-gray-800 {
+            color: #f0f0f0 !important;
+        }
+
+        body.dark .text-gray-700 {
+            color: #e0e0e0 !important;
+        }
+
+        body.dark .text-gray-600 {
+            color: #d0d0d0 !important;
+        }
+
+        body.dark .text-gray-500 {
+            color: #c0c0c0 !important;
+        }
+
+        body.dark .border-gray-200 {
+            border-color: #444 !important;
+        }
+
+        body.dark .bg-gray-50 {
+            background-color: #333 !important;
+        }
+
+        body.dark .exercise-tab {
+            background-color: #333 !important;
+            color: #f0f0f0 !important;
+        }
+
+        body.dark .exercise-tab.active {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+        }
+        
+        body.dark .category-tab {
+            background-color: #444 !important;
+            color: #f0f0f0 !important;
+        }
+        
+        body.dark .category-tab.active {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+        }
+
+        body.dark input, 
+        body.dark textarea, 
+        body.dark select {
+            background-color: #333 !important;
+            color: #f0f0f0 !important;
+            border-color: #555 !important;
+        }
+
+        body.dark .record-button {
+            background-color: #333 !important;
+        }
+
+        body.dark .record-button.recording {
+            background-color: #F56565 !important;
+        }
+
+        body.dark .diff-highlight-add {
+            background-color: rgba(74, 222, 128, 0.2) !important;
+        }
+
+        body.dark .diff-highlight-remove {
+            background-color: rgba(248, 113, 113, 0.2) !important;
+        }
+
+        .category-tab {
+            transition: all 0.3s ease;
+        }
+
+        .category-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .question-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .answer-section {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .answer-section.show {
+            max-height: 5000px;
+            opacity: 1;
+        }
+
+        .personal-example {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .tips-container {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .warning-container {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .record-button {
+            transition: all 0.3s ease;
+        }
+
+        .record-button.recording {
+            background-color: var(--error-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #recordingIndicator {
+            transition: opacity 0.3s ease;
+        }
+
+        .highlight-text {
+            background-color: rgba(93, 92, 222, 0.1);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .blinking {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .feedback-container {
+            transition: all 0.3s ease;
+        }
+
+        .question-list {
+            max-height: calc(100vh - 350px);
+            overflow-y: auto;
+        }
+
+        .progress-container {
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Custom scrollbar styles */
+        .question-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .question-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .question-list::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .question-list::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Diff highlight styles */
+        .diff-highlight-add {
+            background-color: rgba(74, 222, 128, 0.1);
+            border-left: 3px solid #4ADE80;
+            padding-left: 8px;
+            margin: 4px 0;
+        }
+
+        .diff-highlight-remove {
+            background-color: rgba(248, 113, 113, 0.1);
+            border-left: 3px solid #F87171;
+            padding-left: 8px;
+            margin: 4px 0;
+            text-decoration: line-through;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(93, 92, 222, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary-color);
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tab-content {
+            max-height: 2000px;
+            transition: max-height 0.5s ease;
+            overflow: hidden;
+        }
+
+        .tab-content.hidden {
+            max-height: 0;
+        }
+
+        /* Additional styles for the MPU content */
+        #video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-wrapper {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .answer-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-special {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-special:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        body.dark .btn-special {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .toggle-dark-mode {
+            cursor: pointer;
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .toggle-dark-mode::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+
+        body.dark .toggle-dark-mode {
+            background-color: var(--primary-color);
+        }
+
+        body.dark .toggle-dark-mode::after {
+            transform: translateX(26px);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        body.dark .modal-content {
+            background-color: #222;
+            color: #f0f0f0;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        body.dark .close:hover,
+        body.dark .close:focus {
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-3xl font-bold text-gray-800">MPU Pregătire - Întrebări și Răspunsuri</h1>
+                <div class="flex items-center">
+                    <span class="mr-2 text-sm text-gray-600">Mode:</span>
+                    <div id="darkModeToggle" class="toggle-dark-mode"></div>
+                </div>
+            </div>
+            <p class="text-gray-600 max-w-2xl mx-auto">Exersează răspunsurile pentru MPU și îmbunătățește-le cu exemple personale detaliate!</p>
+        </header>
+
+        <!-- Ghid Modal -->
+        <div id="guideModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeGuideModal">&times;</span>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Ghid pentru răspunsuri autentice la MPU</h2>
+                
+                <div class="space-y-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">1. Reformularea răspunsurilor</h3>
+                        <p class="mb-2">Nu învăța răspunsurile <span class="font-bold">cuvânt cu cuvânt</span>! În schimb, înțelege ideea și exprim-o în propriile tale cuvinte.</p>
+                        <p class="text-sm italic">Exercițiu: Ia un răspuns pregătit și spune-l diferit de fiecare dată când îl repeți.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">2. Vorbește ca într-o conversație normală</h3>
+                        <p class="mb-2">Evită să răspunzi prea repede, ca și cum ai recita o poezie.</p>
+                        <p class="mb-2">Dacă ai nevoie de o secundă să te gândești, ia-ți acel timp.</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">3. Folosește exemple personale</h3>
+                        <p class="mb-2">În loc să dai un răspuns general, leagă-l de o <span class="font-bold">experiență reală din viața ta</span>.</p>
+                        <div class="bg-white p-3 rounded border border-gray-200 mt-2">
+                            <p class="font-semibold text-sm">Exemplu:</p>
+                            <p class="text-sm mb-2">Dacă trebuie să explici de ce ai consumat alcool în trecut, nu spune doar <span class="text-red-500">"Din cauza stresului"</span>, ci explică mai detaliat:</p>
+                            <p class="text-sm italic">"Eram mereu stresat din cauza problemelor la muncă și mă simțeam epuizat. La început, alcoolul părea să fie o soluție rapidă pentru relaxare. Cu timpul, mi-am dat seama că nu rezolvă problema reală, ci doar o ascunde temporar."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">4. Evită tonul robotic</h3>
+                        <p class="mb-2">Dacă răspunzi <span class="font-bold">prea perfect, fără ezitări</span>, psihologul poate suspecta că ai memorat răspunsurile.</p>
+                        <p class="mb-2">Exersează să vorbești <span class="font-bold">relaxat</span>, ca și cum ai explica unui prieten.</p>
+                    </div>
+                    
+                    <div class="bg-indigo-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg mb-2">Concluzie</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Pregătirea este esențială, dar felul în care exprimi răspunsurile contează la fel de mult.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Psihologii nu vor perfecțiune, ci sinceritate și reflecție autentică.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Dacă vorbești natural, cu exemple reale și o exprimare flexibilă, vei evita orice suspiciune de răspuns mecanic.</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4 font-bold text-center">Aplică aceste tehnici și vei trece cu succes interviul MPU!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zona principală -->
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Coloana stângă - Navigare și categorii -->
+            <div class="w-full md:w-1/3 mb-6 md:mb-0">
+                <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Categorii</h2>
+                        <button id="showGuideButton" class="text-sm bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full hover:bg-indigo-200 transition">
+                            Ghid
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button class="category-tab px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm active" data-category="all">
+                            Toate
+                        </button>
+                        <button class="category-tab px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm" data-category="intro">
+                            Introducere
+                        </button>
+                        <button class="category-tab px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm" data-category="incident">
+                            Incident
+                        </button>
+                        <button class="category-tab px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm" data-category="alcohol">
+                            Alcool
+                        </button>
+                        <button class="category-tab px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm" data-category="recovery">
+                            Recuperare
+                        </button>
+                        <button class="category-tab px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-sm" data-category="future">
+                            Viitor
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="searchInput" class="w-full rounded-lg border border-gray-300 px-4 py-2 pr-10 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Caută întrebări...">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Progresul tău</h2>
+                    <div class="mb-4">
+                        <div class="flex justify-between mb-1 text-sm">
+                            <span>Întrebări vizualizate</span>
+                            <span id="answeredQuestions">0/0</span>
+                        </div>
+                        <div class="progress-container">
+                            <div id="progressBar" class="progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-center">
+                        <div class="bg-green-50 p-2 rounded-lg">
+                            <p class="text-sm text-gray-600">Înregistrate</p>
+                            <p id="recordedAnswers" class="font-semibold text-lg">0</p>
+                        </div>
+                        <div class="bg-blue-50 p-2 rounded-lg">
+                            <p class="text-sm text-gray-600">Salvate</p>
+                            <p id="savedAnswers" class="font-semibold text-lg">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Sfaturi utile</h2>
+                    <div class="space-y-3">
+                        <div class="tips-container pl-3">
+                            <p class="text-sm text-gray-700">Ia-ți timp să te gândești. O pauză scurtă înainte de a răspunde pare mai naturală.</p>
+                        </div>
+                        <div class="tips-container pl-3">
+                            <p class="text-sm text-gray-700">Folosește formulări precum "Am învățat că..." sau "Am experimentat..." în loc de "Trebuie să..."</p>
+                        </div>
+                        <div class="warning-container pl-3">
+                            <p class="text-sm text-gray-700">Evită să răspunzi prea rapid sau să folosești excesiv termeni tehnici.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coloana dreaptă - Lista de întrebări și detalii -->
+            <div class="w-full md:w-2/3">
+                <div id="questionListContainer" class="bg-white rounded-lg shadow-md p-4 mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Întrebări</h2>
+                    
+                    <!-- Lista de întrebări -->
+                    <div id="questionList" class="question-list space-y-4">
+                        <!-- Întrebările vor fi adăugate dinamic prin JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Vizualizarea detaliată a unei întrebări -->
+                <div id="questionDetail" class="bg-white rounded-lg shadow-md p-6 hidden">
+                    <div class="mb-4">
+                        <button id="backToList" class="flex items-center text-indigo-600 hover:text-indigo-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            Înapoi la listă
+                        </button>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span id="questionCategory" class="inline-block px-2 py-1 text-xs rounded-full bg-indigo-100 text-indigo-800 mb-2">Categorie</span>
+                        <h3 id="questionTitle" class="text-xl font-bold text-gray-800 mb-3">Se încarcă întrebarea...</h3>
+                    </div>
+                    
+                    <div id="questionAnswer" class="mb-6 p-4 bg-gray-50 rounded-lg">
+                        <!-- Răspunsul va fi afișat aici -->
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="flex flex-wrap space-x-2">
+                            <button id="recordAnswerBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                </svg>
+                                Înregistrează răspunsul tău
+                            </button>
+                            <button id="saveAnswerBtn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                </svg>
+                                Salvează răspunsul
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Înregistrare audio -->
+                    <div id="recordingContainer" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
+                        <h4 class="font-semibold mb-3">Înregistrare răspuns:</h4>
+                        <div class="flex items-center space-x-4">
+                            <button id="recordButton" class="record-button flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                </svg>
+                            </button>
+                            <div>
+                                <p id="recordingIndicator" class="text-sm text-gray-500 hidden">
+                                    <span class="inline-block w-2 h-2 bg-red-500 rounded-full mr-1 blinking"></span>
+                                    Înregistrare în curs...
+                                </p>
+                                <p id="recordingTime" class="text-sm font-mono">00:00</p>
+                            </div>
+                        </div>
+                        
+                        <div id="audioContainer" class="mt-4 hidden">
+                            <audio id="audioPlayer" controls class="audio-player"></audio>
+                            <div class="flex mt-3 space-x-2">
+                                <button id="reRecordButton" class="px-3 py-1 text-sm rounded border border-gray-300 hover:bg-gray-100">
+                                    Înregistrează din nou
+                                </button>
+                                <button id="saveRecordingButton" class="px-3 py-1 text-sm rounded bg-indigo-600 text-white hover:bg-indigo-700">
+                                    Salvează înregistrarea
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-between">
+                        <button id="prevQuestionButton" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+                            Întrebarea anterioară
+                        </button>
+                        <button id="nextQuestionButton" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                            Următoarea întrebare
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Bază de date cu întrebări și răspunsuri MPU
+        const qa_data = [
+            {
+                "question": "De ce veniți la MPU? De ce sunteți astăzi aici?",
+                "answer": `
+                 <div id="video-wrapper">
+                     <iframe width="560" height="315" src="https://www.youtube.com/embed/AI3ubilhGP4?si=KoSDIh2VM-1uIysk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                       <p><strong>Sunt aici la MPU pentru că:<strong></p>
+                        <ul>
+                            <li>Am condus sub influența alcoolului</li>
+                            <li>Nu am respectat legea</li>
+                            <li>Am făcut un accident</li>
+                            <li>Am fost un egoist</li>
+                            <li>Am fost un pericol pentru mine și pentru alții</li>
+                        </ul>
+                        <p><strong>Mi-am dat seama că:<strong></p>
+                        <ul>
+                            <li>Am o problemă cu alcoolul</li>
+                            <li>Am fost în abuz de alcool</li>
+                            <li>Am încetat să beau</li>
+                        </ul>
+                        <p><strong>Astăzi vreau să vă arăt că:<strong></p>
+                        <ul>
+                            <li>M-am schimbat</li>
+                            <li>Acum sunt capabil să conduc responsabil</li>
+                        </ul>
+                       <div class="image-wrapper">
+                        <img src='https://cdn.gamma.app/fhpleqvbjim2f32/9492d165359e4bfbbd64372f0d6ddb3b/original/image.png' alt='Descrierea imaginii' class='answer-image'>
+                         </div>
+                      <div style="text-align: center;">
+                       <button class="btn btn-special" onclick="window.open('https://chatgpt.com/g/g-675b4ab62c108191a1479b587cf22131-asistentdinamicmincu', '_blank')">
+                        DESCHIDE AI/KI AJUTOR!
+                       </button>
+                       </div>
+                `,
+                "category": "intro"
+            },
+            {
+                "question": "De ce credeți că autoritățile sunt îngrijorate cu privire la capacitatea dvs. de a conduce un vehicul? Sunteți de acord că veniți la MPU?",
+                "answer": `
+                <p><strong>Da sunt de acord pentru că am condus sub influența alcoolului și am făcut un accident! Acest lucru este o infracțiune gravă care a pus în pericol viața mea și a altora!<strong></p>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Ve3jDM9v5eg?si=OobRcabjNSk7X3d7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="image-wrapper">
+                <img src='https://i.imgur.com/AVJoo7t.jpeg' alt='Descrierea imaginii' class='answer-image'>
+                 </div>
+                `,
+                "category": "intro"
+            },
+            {
+                "question": "Descrieți ziua delictului din punctul dvs. de vedere cu data și ora?",
+                "answer": `
+                <p><strong>La data de 04.11.2022, Vineri, către orele 14:05,</strong> am condus pe strada Heidecker Strasse în Hilpoltstein, deși nu am fost în stare să conduc ca urmare a consumului anterior de alcool.</p> 
+                <ul> 
+                    <li>Am atins mașina din fața mea, un autocamion Daimler al persoanei păgubite Brandl.</li> 
+                    <li>Am părăsit carosabilul și am lovit o placă publicitară a firmei August Tiefenbacher Aussenwerbung GmbH.</li> 
+                    <li>Am lovit și gardul proprietății al persoanei păgubite Sussbauer.</li> 
+                </ul> 
+                <p><strong>Pagube produse:</strong></p> 
+                <ul> 
+                    <li>La placa publicitară: 3.372,20 Euro</li> 
+                    <li>La gard: aproximativ 500 Euro</li> 
+                </ul> 
+                <p><strong>Proba de sânge:</strong> La ora 15:17, valoare 2,81 Promile.</p> 
+                <p><strong>Consumul de alcool:</strong></p> 
+                <ul> 
+                    <li>Începând de Joi, 03.11.2022, ora 17:00, până la 03:00: 12 sticle de bere (6 Litri de bere, 5%) și jumătate de sticlă de vodcă (0.5 Litri, 40%).</li> 
+                    <li>Vineri, 04.11.2022, începând de la ora 12:00: două beri și restul de vodcă.</li> 
+                </ul> 
+                <p><strong>Total consumat:</strong> 14 sticle de bere și 0,5 Litri de vodcă.</p>
+                <div class="image-wrapper">
+                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/8bf801eaec5a49d896ce30cabf5957df/original/Screenshot-2025-02-12-183548.jpg' alt='Descrierea imaginii' class='answer-image'>
+                </div>
+                `,
+                "category": "incident"
+            },
+            {
+                "question": "Ați plănuit să consumați în ziua respectivă atât de mult?",
+                "answer": `
+                <p><strong>Nu, nu a fost planificat!<strong></p>
+                <p>Nu am avut controlul asupra consumului, asta este problema, consumul mi-a scăpat de sub control în timpul petrecerii!</p>
+                <div id="video-wrapper">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Q-kLZAkkpEM?si=Ng3xMH0XxHBmwjJU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "incident"
+            },
+            {
+                "question": "Cum ați crezut că mai puteți conduce? Nu ați simțit influența alcoolului?",
+                "answer": `
+                <p><strong>Am vrut inițial să las mașină acolo unde a fost parcată, dar m-am hotărât, \n\ndin confort, să conduc spre casă. <strong></p>
+                <p>Decizia, clar, a fost greșită și iresponsabilă, am făcut ceva ilegal, conducând sub influența alcoolului. Am făcut un accident!</p>
+               <div class="image-wrapper">
+              <img src='https://cdn.gamma.app/fhpleqvbjim2f32/9c7de0553ad94030b938d6a9348f4f90/original/Screenshot-2025-02-12-195751.jpg' alt='Descrierea imaginii' class='answer-image'>
+             </div>
+                `,
+                "category": "incident"
+            },
+            {
+                "question": "Ați crezut că mai puteți conduce în siguranță?",
+                "answer": `
+                <p>Da, m-am simțit în stare să conduc. Din perspectiva de astăzi, desigur, nu a fost cazul!</p>
+                 <p>Acum înțeleg că siguranța circulației este cel mai important lucru.  Ar fi trebuit să nu fi condus și să spun nu. Îmi pare foarte rău pentru cele întâmplate! </p>
+                 <div id="video-wrapper">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Of7WcEjgIhI?si=ZYKeKjbYM5eRmXRP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                 </div>
+                `,
+                "category": "incident"
+            },
+            {
+                "question": "Ce efecte are alcoolul asupra capacității de conducere?",
+                "answer": `
+                <p><strong>Reacție slabă, vedere tunel<strong></p>
+                <p>Mai mult preocupat de sine, mai puțin concentrat.</p>
+                <p>Distanțele nu mai pot fi estimate corect</p>
+                <p>De exemplu cu mașinile care circulă în sens opus sau în față.</p>
+                <p>Mai ales periculos pentru că nu sunt asigurat</p>
+                <p>Dacă fac accident sub influența alcoolului.</p>
+                <div class="image-wrapper">
+                    <img src='https://i.imgur.com/1EiYKpC.jpeg' alt='Efecte ale alcoolului asupra capacității de conducere' class='answer-image'>
+                </div>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Cât de des ați fost sub influența alcoolului pe drum fără a atrage atenția și ce concluzionați din aceasta?",
+                "answer": `
+                <p><strong>Din păcate am condus deseori sub influența alcoolului, ignorând riscurile. Am condus de câteva ori ca în ziua delictului, sau cu rest alcool în sânge, da! Asta a fost iresponsabil din partea mea. Îmi pare rău!<strong></p>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/0eE-FG3h9Y0?si=yXLcYkygU_Pnpv8q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Gânduri, sentimente după delict?",
+                "answer": `
+                <p><strong>După delict, situație jenantă, mi-a fost rușine! Am fost nepăsător și egoist. Mi-am dat seama de gravitatea greșelii mele și faptul că ași fi putut să rănesc pe cineva în trafic, ceea ce nu mi-aș fi dorit niciodată pentru nimeni. Înțeleg că am o problemă cu alcoolul și înțeleg pericolul pe care l-am reprezentat în trafic!<strong></p>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/iv6VNDkzrnk?si=IGa18429gDWiHEvO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="image-wrapper">
+                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/2ee284b916b9450b8850363064bc479e/original/SENTIMENTEFLORIN.jpg' alt='Efecte ale alcoolului asupra capacității de conducere' class='answer-image'>
+                </div>
+                `,
+                "category": "incident"
+            },
+            {
+                "question": "Cum v-ați descurcat cu alcoolul după delict? Cine sau ce te-a motivat să-ți schimbi comportamentul? Care a fost punctul de cotitură?",
+                "answer": `
+                <p><strong>După ce mi-am pierdut permisul de conducere, am fost șocat, nu am știut ce să fac și de necaz am băut următoarele cinci, șase luni mai departe.</strong></p>
+                <p><strong>De atunci, am băut din ce în ce mai puțin, iar la data de 31.09.2023 am băut ultima bere.</strong></p>
+                <p><strong>Începând cu 01.10.2023, m-am hotărât să renunț complet la alcool.</strong></p>
+                <p><strong>Punctul de cotitură:</strong></p>
+                <p>Accidentul și delictul au fost un șoc pentru mine, care m-au trezit la realitate. Am înțeles și m-am decis să-mi schimb comportamentul pentru:</p>
+                <ul>
+                    <li><strong>Viitorul meu</strong></li>
+                    <li><strong>Familia mea</strong></li>
+                    <li><strong>Dar și pentru societate</strong></li>
+                </ul>
+                <p>Am realizat că o schimbare este necesară și vreau să mențin această schimbare permanent.</p>
+                <div class="image-wrapper">
+                    <img src='https://cdn.gamma.app/fhpleqvbjim2f32/51b9bfd8f7b64780a6d9042190c921dd/original/PunctDeCotitura.png' alt='Efecte ale alcoolului asupra capacității de conducere' class='answer-image'>
+                </div>
+                `,
+                "category": "recovery"
+            },
+            {
+                "question": "Din ce alte motive ați mai renunțat la alcool?",
+                "answer": `
+                <p><strong>Am realizat că nu am control asupra consumului și că acesta îmi provoacă probleme în viață.<strong></p>
+                <p><b>Certuri și situații jenante!<b></p>
+                <p><strong>Neglijarea hobby-urilor!<strong></p>
+                <p><b>Am realizat că alcoolul îmi afectează negativ sănătatea și bunăstarea generală.<b></p>
+                 <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/i5JX-nH-76M?si=fgJf7CFKBPwaq7OA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="image-wrapper">
+                    <img src='https://i.imgur.com/ZHdzos1.jpeg' alt='Descrierea imaginii' class='answer-image'>
+                </div>
+                `,
+                "category": "recovery"
+            },
+            {
+                "question": "Va fost ușor să renunțați la alcool?",
+                "answer": `
+                <p><strong>Nu!, nu a fost ușor, a fost neobișnuit să nu ai beau ca înainte alcool, nu a fost o problemă fizică, dar gândurile la alcool, au fost la început prezente, la zile de nașteri, petreceri.<strong></p>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/YaYRxl_9GMo?si=gWBu29swE0h5aIXf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "recovery"
+            },
+            {
+                "question": "De ce nu ați renunțat mai devreme la alcool?",
+                "answer": `
+                <p><strong>În trecut, nu mi-am pus niciodată problema să renunț la alcool, deoarece nu am avut grijă de sănătatea mea. Credeam că alcoolul mă ajută să fac față stresului și îmi ușurează relațiile sociale. Consumul de alcool era considerat cel mai normal lucru din lume la petreceri și nu m-am gândit la consecințele negative asupra corpului meu.<strong></p>
+                <div id="video-wrapper">
+                   <iframe width="560" height="315" src="https://www.youtube.com/embed/jTcnFEE4uLw?si=55oRuoBt-9ZrJv3s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Cât și cât de des ați consumat? Trecut:",
+                "answer": `
+                <p><strong>Între 20 și 33 de ani:</strong></p>
+                <p>Am consumat între 2-4 beri de 0,5 litri și 2 duble de de două, trei ori pe lună, în principal în weekend sau la ocazii speciale.</p>
+                <p><strong>Între 33 și 37 de ani:</strong></p>
+                <p>Mi-am schimbat stilul de viață și comportamentul legat de consumul de alcool. Am găsit un loc nou de muncă în domeniul montajului, cu un program diferit, de luni până joi pe drum. Mi-am schimbat comportamentul de a bea în mod negativ, am început să beau regulat, din păcate, cantitatea de băutură a crescut! După muncă, miercuri și joi, obișnuiam să beau 2-3 beri. În weekend, consumam 4-5, 6-8, chiar 9-10 beri.</p>
+                <p><strong>Cantități maxime:</strong></p>
+                <p>La fiecare 4 luni consumam 8 litri de bere și o jumătate de sticlă de tărie, aproximativ de 4 ori pe an.</p>
+                <div class="image-wrapper">
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/02464c5eac4a48f190a112e6129b9ec4/original/Cat-si-cat-de-des-ati-consumat-Trecut.png' alt='Descrierea imaginii' class='answer-image'>
+                </div>
+                <iframe src="https://zaha175.github.io/ConsumINTIMP/" width="100%" height="400px" style="border:none;"></iframe>
+                <div style="text-align: center;">
+                    <button class="btn btn-special" onclick="window.open('https://zaha175.github.io/ConsumINTIMP/', '_blank')">
+                        DESCHIDE ConsumINTIMP!
+                    </button>
+                </div>
+                <p><a href="https://zaha175.github.io/ConsumINTIMP/" target="_blank">https://zaha175.github.io/ConsumINTIMP/</a></p>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "De ce ați băut? Cauze?",
+                "answer": `
+                <p><strong>Cauza a stat în trecutul meu și în modul meu de gândire.</strong></p>
+                <p>În România, am trei surori și un frate. Părinții mei erau preocupați de ei înșiși, nu au avut timp pentru mine, așa că am crescut de la două luni la bunici. Deși au avut grijă de mine, uneori mă simțeam neglijat.</p>
+                <p><strong>La 16 ani</strong>, bunicii mei au murit. A fost un șoc, un coșmar, pentru că ei erau ca părinții mei. Am rămas singur și a trebuit să încep să muncesc pentru a supraviețui.</p>
+                <p><strong>Când m-am mutat în Germania în 2013</strong>, venind din Cipru, la 28 de ani, a fost foarte greu. Separarea de soție și copii m-a apăsat enorm. Mă simțeam singur, pierdut, fără repere. Nu am vorbit cu nimeni despre problemele mele.</p>
+                <p>Am început să consum alcool în mod regulat, la început chiar și singur, pentru a-mi amorți sentimentele.</p>
+                <p>Alcoolul m-a ajutat să-mi reduc stresul și să uit de probleme.</p>
+                <p><strong>La noul loc de muncă</strong>, am găsit prieteni români. După 33 de ani, munca a devenit și mai grea, alt domeniu, sucursale în toată Germania, stres mare pe șantier. Am început să beau cu colegii.</p>
+                <p>În grupul lor mă simțeam acceptat, parte din ceva. <strong>Nu puteam spune „nu"</strong>, voiam să plac tuturor, mi-era teamă de respingere.</p>
+                <p>În cele din urmă, am pierdut <strong>controlul asupra consumului de alcool</strong> și am intrat într-o spirală descendentă.</p>
+                <div id="video-wrapper">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/o6nKy8KzNTw?si=e8DUPfM8IhU57pIy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>   
+                </div>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Cum va-ți descurcat cu stresul în trecut?",
+                "answer": `
+                <p><strong>În trecut în România am vorbit cu familia și partenera.<strong></p>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/JyOHlu8ft-o?si=F_BYyECgWSK-Y84m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Care a fost funcția consumului în perioada când ați băut excesiv alcool?",
+                "answer": `<ul><li>Am băut alcool pentru a reduce <strong>stresul</strong>, pentru a uita de probleme (dorința mea de a fi acceptat și de a aparține, dar și viața nouă, a fost foarte greu la început).</li></ul>`,
+                "category": "alcohol"
+            },
+            {
+                "question": "Cum faci față stresului în viața ta de astăzi? Cum ai redus stresul?",
+                "answer": `<ul><li>Acum vorbesc deschis și sincer despre problemele mele. Îmi exprim limitele și spun <strong>"Nu"</strong>.</li></ul>`,
+                "category": "recovery"
+            },
+            {
+                "question": "De ce credeți că nu ați fost dependent de alcool?",
+                "answer": `
+                <p><strong>Nu am avut probleme de sevraj, deci probleme fizice!<strong></p>
+                <p><strong>M-am oprit fără ajutor.<strong></p>
+                <p><strong>Nu am băut cantități mari în timpul săptămânii. Nu am băut nimic dimineața.<strong></p>
+                <p><strong>Mi-am respectat Terminele.<strong></p>
+                <p><strong>Nu am fost în spital, nu am făcut Terapie.<strong></p>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/iLaN6vl6hNg?si=8wIZqvBGm8P_RQsx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Schimbări! Ce s-a schimbat în viața dvs. de când nu mai consumați?",
+                "answer": `
+                <p><strong>Au fost o mulțime de schimbări de când nu mai consum alcool, și sincer, totul a luat o întorsătură mult mai pozitivă.</strong></p>
+                <ul>
+                    <li><strong>Mă simt mai bine fizic, parcă am energie cât să mut munții!</strong></li>
+                    <li><strong>Relația mea s-a îmbunătățit</strong> -- acum vorbesc deschis despre ce mă apasă, și asta ne-a apropiat.</li>
+                    <li><strong>La muncă, e altă viață:</strong> am mai mult elan, mă descurc mai bine și chiar am legat prietenii cu colegii noi.</li>
+                    <li><strong>Mi-am redescoperit pasiunile de odinioară</strong> -- fac sport, dau ture cu bicicleta și ies la plimbări cu soția mea.</li>
+                    <li><strong>Weekendurile, care înainte erau pierdute cu băutura,</strong> le petrec acum cu familia sau făcând lucruri care chiar mă bucură.</li>
+                </ul>
+                <div class="image-wrapper">
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/be381117a46545ff9fb2d00d4fb14d51/original/SchimbariiMinca.jpg' alt='Descrierea imaginii' class='answer-image'>
+                </div>
+                `,
+                "category": "recovery"
+            },
+            {
+                "question": "Care ar fi Situațiile Riscante?",
+                "answer": `
+                <p><strong>Crize de viață (moartea unei persoane dragi, boli grave, pierderea locului de muncă, etc.):</strong></p>
+                <p>Mă bazez pe sprijinul familiei și al prietenilor apropiați. Caut ajutor emoțional sau profesional dacă este necesar. Nu folosesc alcoolul ca metodă de consolare, ci mă concentrez pe soluții sănătoase, cum ar fi exercițiile fizice, meditația sau discuțiile cu persoane de încredere. Privesc înainte și continui să trăiesc.</p>
+
+                <p><strong>Reîntâlnirea cu prieteni vechi care oferă alcool:</strong></p>
+                <p>Refuz politicos, spunând: „Nu, mulțumesc, nu mai beau alcool. Prefer o Cola sau altă băutură nealcoolică." Dacă presiunile continuă, menționez că voi pleca. Este important să fiu ferm, fără a intra în discuții prelungite.</p>
+
+                <p><strong>Oferirea alcoolului la o zi de naștere sau o petrecere:</strong></p>
+                <p>Spun clar și ferm că nu mai beau alcool din cauza problemelor din trecut. Explic că pentru mine orice consum de alcool este o pierdere de timp. Prefer să ciocnesc paharele cu apă sau băuturi nealcoolice și sugerez celor din jur să încerce același lucru. Dacă evenimentul devine inconfortabil, pot pleca.</p>
+
+                <p><strong>Stresul la locul de muncă:</strong></p>
+                <p>În situații de stres la serviciu, nu folosesc alcool pentru a mă relaxa. Am învățat să gestionez stresul într-un mod sănătos: iau o pauză, fac o plimbare sau discut cu un coleg de încredere. Practic tehnici de respirație sau sport pentru a mă calma.</p>
+
+                <p><strong>Singurătatea sau plictiseala:</strong></p>
+                <p>În trecut, foloseam alcoolul când mă simțeam singur sau plictisit. Acum am o rutină diferită: mi-am găsit hobby-uri noi, fac sport sau petrec timp cu familia. Evit să stau izolat și mă implic în activități care mă bucură.</p>
+
+                <p><strong>Sărbători sau evenimente tradiționale:</strong></p>
+                <p>În cadrul sărbătorilor unde se obișnuiește consumul de alcool, aleg să mă concentrez pe atmosfera și pe bucuria momentului, nu pe băut. Mă pregătesc din timp cu băuturi nealcoolice și mă distrez la fel de bine fără alcool.</p>
+
+                <p><strong>Presiunea socială într-un cerc nou de prieteni:</strong></p>
+                <p>Atunci când întâlnesc persoane noi, sunt sincer de la început: „Nu consum alcool, am luat această decizie pentru mine." Ofer această informație calm și încrezător, prevenind astfel presiunile viitoare.</p>
+
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ys7vNuesTcM?si=IeNHgNa1FeHHLeM6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "future"
+            },
+            {
+                "question": "Unde vedeți riscul de recidivă \"a face același delict din nou\"? De ce este Riscul de recidivă minimal?",
+                "answer": `
+                <p>În viitor, vreau să respect legea, pentru că nu mai vreau să pun viața nimănui în pericol. Desigur, nimeni nu poate da 100%.</p>
+                <p><strong>Riscul este minimal pentru că:<strong></p>
+                <ul>
+                    <li>Astăzi vorbesc cu alții (familia care mă sprijină) despre problemele mele cât mai curând posibil.</li>
+                    <li>Am un loc de muncă nou, prieteni noi, am mai mult timp pentru hobbyurile mele! Nu mă mai arăt permanent puternic, pot să arăt că sunt și slab.</li>
+                    <li>Am învățat să spun \"Nu\", nu le mai fac pe plac la toți!</li>
+                    <li>Cunosc Situațiile Riscante, știu despre dorința mea de a fi acceptat și de a aparține, îmi cunosc cauzele consumului!</li>
+                </ul>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/v7cG8XrGLKE?si=vJrSov1aq5Yjws68" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "future"
+            },
+            {
+                "question": "Plan de urgență (o Listă) după o recidivă(dacă beau din nou!)?",
+                "answer": `
+                <p>Numărul de telefon al consultantului MPU care este întotdeauna disponibil!</p>
+                <p>O Listă: Indică ce se întâmplă dacă continui să consum: Datorii, separare, pierderea locului de muncă, boală etc.! Riscul de a pierde tot ce am realizat până acum! Sănătate, prieteni, Sport, bani, hobby-uri!</p>
+                `,
+                "category": "future"
+            },
+            {
+                "question": "Ce ați învățat în timpul pregătirii MPU?",
+                "answer": `
+                <p><strong>Am vorbit despre delicte<strong></p>
+                <p>L-am analizat și am găsit greșelile mele.</p>
+                <p>Greșeli: Am crezut că nu voi fi prins! Am fost un Egoist! Nu am respectat legea: Am condus sub influența alcoolului! Am fost un pericol pentru mine și pentru alții!</p>
+                <p>Cunosc cauzele consumului meu, dorința mea de recunoaștere și apartenență!</p>
+                <p>Știu că alcoolul este otravă pentru nervi și celule, este dăunător sănătății.</p>
+                <p>Poate duce la dependență. Cu fiecare intoxicație, celulele creierului mor.</p>
+                <p>Consumul regulat de băut duce la o memorie slabă și la scăderea inteligenței.</p>
+                <p>Știu ce este memoria dependenței (creierul își va aminti întotdeauna nivelurile maxime).</p>
+                <p>Știu ce înseamnă creșterea toleranței (alcoolul devine din ce în ce mai mult).</p>
+                <p>Știu ce este consumul excesiv de alcool, atunci când cinci sau mai multe pahare de alcool sunt băute de o dată.</p>
+                <p>Riscul de a comite un delict identic nu poate fi exclus.</p>
+                <p>Am discutat despre avantajele și dezavantajele. Sunt pregătit pentru viitor.</p>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/GtbRiKlSdU8?si=cN02aukZ697HP4zW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "recovery"
+            },
+            {
+                "question": "Credeți că ar trebui să vă reprimiți permisul de conducere, vreți neapărat carnetul înapoi?",
+                "answer": `
+                <ul>
+                    <li><strong>Cred că ar fi frumos dacă mi-aș obține permisul de conducere înapoi.</strong></li>
+                    <li><strong>Mai important pentru mine este faptul că mi-am schimbat comportamentul.</strong> Nu mai vreau să fiu un pericol pentru nimeni când particip la traficul rutier.</li>
+                    <li><strong>Pentru că nu mai vreau să pun în pericol viața mea nouă.</strong></li>
+                </ul>
+                 <div class="image-wrapper">
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/572d6b7e24b645c4bd2f7435d5ff3ae4/original/Carnetul1.jpg' alt='Descrierea imaginii' class='answer-image'>
+                </div>
+                `,
+                "category": "future"
+            },
+            {
+                "question": "Mai aveți ceva de adăugat pentru a încheia?",
+                "answer": `
+                <ul>
+                    <li><strong>Cred că retragerea permisului de conducere nu este atât de gravă, deoarece este o învățătură de minte pentru mine.</strong></li>
+                    <li><strong>Dacă nu mi s-ar fi întâmplat asta, atunci nu aș fi schimbat nimic în viață.</strong></li>
+                    <li><strong>Sunt recunoscător pentru asta!</strong></li>
+                </ul>
+                 <div class="image-wrapper">
+                  <img src='https://cdn.gamma.app/fhpleqvbjim2f32/58053d2e741140639a73bbce062cb702/original/Screenshot-2024-06-13-194929.jpg' alt='Descrierea imaginii' class='answer-image'>
+                </div>
+                `,
+                "category": "future"
+            },
+            {
+                "question": "Când ați intrat pentru prima dată în contact cu alcoolul și când ați consumat pentru prima dată?",
+                "answer": `
+                <p><strong>La vârsta de 14 ani am probat o înghițitură de bere pentru prima dată. Nu mi-a plăcut atunci deloc!<strong><p>
+                <div id="video-wrapper">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/Mhf-xC5HmcQ?si=4DpElmGHy1_xq6fV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Care au fost aspectele pozitive ale consumului de alcool?",
+                "answer": `
+                <ul>
+                    <li><strong>În primul rând, era plăcut.</strong> Mă simțeam relaxat și vesel.</li>
+                    <li><strong>Un alt lucru pozitiv</strong> era că mă simțeam în largul meu și social în compania prietenilor, mai vorbăreț și deschis.</li>
+                    <li><strong>Alcoolul avea uneori și un efect distractiv,</strong> îmi ridica starea de spirit.</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Care au fost aspectele negative ale consumului de alcool?",
+                "answer": `
+                <ul>
+                    <li>A doua zi m-am luptat cu <strong>dureri de cap,</strong> <strong>greață,</strong> <strong>oboseală</strong> și <strong>lipsă de putere.</strong></li>
+                    <li>Eram obosit, nemotivat, o persoană complet diferită!</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Unde și cu cine ați consumat mai ales?",
+                "answer": `
+                <ul>
+                    <li>Am consumat alcool în special în compania prietenilor și colegilor de muncă.</li>
+                    <li>De obicei ieșeam în oraș miercuri, joi seara după muncă pentru o bere la un local.</li>
+                    <li>De asemenea, băusem la petreceri, nunți sau evenimente importante alături de cunoscuți.</li>
+                    <li>Astfel, momentele de relaxare în gașcă erau asociate cu băuturile alcoolice.</li>
+                    <li>În trecut, pentru a mă simți acceptat în cercul de prieteni, bea la fel ca ei.</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Ați fost vreodată întrebat despre consumul de alcool?",
+                "answer": `
+                <ul>
+                    <li>Da, din mai multe părți (mama și prietena).</li>
+                    <li>Ar bea prea mult.</li>
+                    <li>Dar am considerat că consumul meu este normal.</li>
+                    <li>Am ignorat toate lucrurile.</li>
+                    <li>Au existat și certuri din cauza alcoolului.</li>
+                    <li>De când am încetat să beau, totul s-a dezvoltat mai pozitiv.</li>
+                    <li>Mă înțeleg mai bine cu partenera mea.</li>
+                    <li>De asemenea, sunt mult mai productiv la locul meu de muncă.</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Au existat probleme cu prietena sau la lucru din cauza consumului de alcool?",
+                "answer": `
+                <ul>
+                    <li>Bineînțeles, ne-am certat deseori din cauza consumului de alcool.</li>
+                    <li>La lucru, luni fără putere, obosit.</li>
+                    <li>Da, am avut probleme să mă concentrez la muncă!</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "V-ați simțit vinovat câteodată de consumul de alcool?",
+                "answer": `
+                <ul>
+                    <li><strong>Da, sigur!</strong> Mai ales când ai un cap mare a doua zi.</li>
+                    <li>Dar două zile mai târziu uitasem deja.</li>
+                    <li><strong>Știam că trebuie să fac ceva.</strong></li>
+                    <li><strong>A rămas însă gândul,</strong> nu am făcut nimic.</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Cum evaluați consumul, ați pierdut vreodată controlul asupra cantităților de băut?",
+                "answer": `
+                <ul>
+                    <li><strong>În trecut am avut probleme cu alcoolul și am pierdut de câteva ori controlul cantităților consumate,</strong> ajungând să mă îmbăt peste măsură.</li>
+                    <li><strong>S-a întâmplat de aproximativ 4 ori pe an.<strong></li>
+                    <li>De obicei bea bere, dar uneori țuică, ceea ce mă făcea să-mi pierd frânele mai repede.</li>
+                    <li><strong>Trebuie să recunosc că nu știam să mă opresc la timp.</strong></li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Dacă au apărut rupturi de film din cauza consumului de alcool, adică dacă după un consum excesiv de alcool ați uitat părți din seara în care ați băut excesiv?",
+                "answer": `
+                <ul>
+                    <li>Da, în perioada în care consumam foarte mult alcool, de câteva ori am avut rupturi de film după o seara în care băusem în exces.</li>
+                    <li><strong>Erau deja câteva porțiuni din seara petrecută pe care nu mi le mai aduceam aminte.</strong></li>
+                    <li>Acesta era un semn clar că depășisem limita sigură și alcoolul îmi afecta memoria.</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "V-ați abținut în mod conștient și deliberat de a consuma alcool în trecut sau mai des pe o perioadă mai lungă de timp? Ați avut pauze de băut?",
+                "answer": `
+                <ul>
+                    <li><strong>Sincer, nu am avut pauze de băut și nu au existat niciodată încercări de abstinență.</strong></li>
+                    <li><strong>Nu, nu m-am abținut conștient și deliberat de a consuma alcool pe o perioadă mai îndelungată de timp.</strong></li>
+                    <li>Deși uneori, după o seara de beție, îmi dădeam seama că nu controlasem bine situația și că ar fi trebuit să reduc cantitatea consumată, nu luam măsuri concrete să mă las.</li>
+                    <li><strong>Greșeala mea a fost că uitam prea curând de problemele provocate de alcool și nu înțelegeam faptul că abuzam deja de el.</strong></li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "În ce categorie de băutori va vedeți astăzi retrospectiv? Cum ați evalua comportamentul dvs. de băut până la data infracțiunii?",
+                "answer": `
+                <ul>
+                    <li>Astăzi mă văd în <strong>abuz,</strong> cantitățile de alcool au fost ridicate și problematice.</li>
+                    <li>Scala la 8. (sub mediu - mediu - abuziv - dependent)</li>
+                    <li>Scala 1 2 3 4 5 6 7 <strong>8</strong> 9 10</li>
+                </ul>
+                `,
+                "category": "alcohol"
+            },
+            {
+                "question": "Beți alcool astăzi? Dacă da, ce, cât și cât de des? Beți bere fără alcool? Vă puteți imagina să beți una sau două beri în viitor?",
+                "answer": `
+                <ul>
+                    <li><strong>Sunt abstinent de mai mult de un an!</strong></li>
+                    <li>Nu!</li>
+                    <li><strong>Nu, nu beau bere fără alcool,</strong> acord în mod conștient atenție la ceea ce mănânc și dacă există alcool în băuturi, alimente sau medicamente.</li>
+                    <li>În cazul medicamentelor, întreb dacă există alternative fără alcool.</li>
+                    <li><strong>Nu!</strong> Am probleme cu alcoolul, știu că nu va rămâne doar la o bere!</li>
+                </ul>
+                `,
+                "category": "recovery"
+            },
+            {
+                "question": "Ce contact aveți momentan cu gașca, cu care ați consumat?",
+                "answer": `
+                <ul>
+                    <li><strong>Între timp nu mai am niciun contact cu clica mea.</strong></li>
+                    <li>Când mi-am exprimat dorința de a nu mai bea alcool, unii dintre foștii prieteni nu au fost în stare să mă înțeleagă sau să mă accepte.</li>
+                    <li>Majoritatea întâlnirilor noastre se desfășurau în locuri unde se consuma băuturi alcoolice.</li>
+                    <li>Acum evit astfel de evenimente sau localuri.</li>
+                    <li><strong>În cercul meu actual de prieteni, consumul intensiv de alcool nu ar fi acceptat.</strong></li>
+                </ul>
+                `,
+                "category": "recovery"
+            },
+            {
+                "question": "Ați fost un șofer sigur?",
+                "answer": `
+                <p><strong>Nu, altfel nu aș fi la MPU, deoarece șoferii foarte buni nu trebuie să meargă la MPU!<strong><p>
+                <div id="video-wrapper">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/dFyrz1dIjXk?si=H7vPJNxbRS3pnG-c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "incident"
+            },
+            {
+                "question": "Cum apreciați faptul că până la accident nu ați avut niciodată un accident mai mare?",
+                "answer": `<ul><li>A fost doar <strong>noroc</strong>!</li></ul>`,
+                "category": "incident"
+            },
+            {
+                "question": "De ce avem atâtea reguli și legi?",
+                "answer": `
+                <ul>
+                    <li><strong>Avem nevoie de reguli.</strong></li>
+                    <li><strong>Regulile ne protejează.</strong></li>
+                    <li><strong>Am înțeles că dacă respect regulile voi trăi în siguranță și în pace.</strong></li>
+                    <li><strong>Fără reguli ar fi doar haos.</strong></li>
+                </ul>
+                <div id="video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/dM5Di1rTKIg?si=1uqc3sdi4eil7mY_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                `,
+                "category": "future"
+            },
+            {
+                "question": "Cum vă vedeți ca șofer în trecut?",
+                "answer": `
+                <ul>
+                    <li><strong>Am fost un șofer egoist și neglijent,</strong> mă gândeam doar la mine și nu la consecințe!</li>
+                    <li><strong>Îmi pare rău!</strong></li>
+                </ul>
+                `,
+                "category": "incident"
+            },
+            {
+                "question": "Ce credeți că este un șofer bun, normal?",
+                "answer": `
+                <ul>
+                    <li>Un șofer de mașină bun este cineva care <strong>respectă regulile,</strong> este <strong>atent,</strong> se gândește la alții și nu mai reprezintă un pericol în trafic!</li>
+                </ul>
+                `,
+                "category": "future"
+            },
+            {
+                "question": "Câte persoane trebuie să meargă la MPU pe an?",
+                "answer": `
+                <ul>
+                    <li>90.000 de persoane în anul 2019, <strong>din cauza alcoolului 40%</strong> , droguri și medicamente cu 30%, puncte 18%, restul 12%.</li>
+                </ul>
+                `,
+                "category": "intro"
+            },
+            {
+                "question": "Ultima dată când ați spus Nu?",
+                "answer": `
+                <ul>
+                    <li>Am refuzat unui prieten care <strong>sa mutat pentru a cincea oară în doi ani</strong> și care a avut nevoie din nou de oameni pentru a transporta cutii.</li>
+                </ul>
+                `,
+                "category": "recovery"
+            }
+        ];
+
+        // Variabile pentru funcționalitatea aplicației
+        let currentQuestion = null;
+        let currentCategory = 'all';
+        let recordedAnswers = {};
+        let savedAnswers = {};
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordingTimer = null;
+        let recordingSeconds = 0;
+        let answeredQuestions = new Set();
+
+        // Inițializare elemente DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            
+            // Check if user prefers dark mode
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark');
+            }
+            
+            // Toggle dark mode when clicked
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark');
+            });
+            
+            // Event listeners pentru filele de categorii
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    currentCategory = category;
+                    
+                    // Evidențierea filei active
+                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filtrare și afișare întrebări
+                    showQuestionsByCategory(category);
+                });
+            });
+            
+            // Funcționalitate de căutare
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                filterQuestions(searchTerm);
+            });
+            
+            // Deschidere ghid modal
+            document.getElementById('showGuideButton').addEventListener('click', function() {
+                document.getElementById('guideModal').style.display = 'flex';
+            });
+            
+            // Închidere ghid modal
+            document.getElementById('closeGuideModal').addEventListener('click', function() {
+                document.getElementById('guideModal').style.display = 'none';
+            });
+            
+            // Închidere ghid modal când se face click în afara modalului
+            window.addEventListener('click', function(event) {
+                if (event.target == document.getElementById('guideModal')) {
+                    document.getElementById('guideModal').style.display = 'none';
+                }
+            });
+            
+            // Buton înapoi la lista de întrebări
+            document.getElementById('backToList').addEventListener('click', function() {
+                document.getElementById('questionDetail').classList.add('hidden');
+                document.getElementById('questionListContainer').classList.remove('hidden');
+            });
+            
+            // Buton de înregistrare răspuns
+            document.getElementById('recordAnswerBtn').addEventListener('click', function() {
+                const recordingContainer = document.getElementById('recordingContainer');
+                recordingContainer.classList.toggle('hidden');
+            });
+            
+            // Buton de înregistrare
+            document.getElementById('recordButton').addEventListener('click', toggleRecording);
+            
+            // Buton pentru reînregistrare
+            document.getElementById('reRecordButton').addEventListener('click', function() {
+                document.getElementById('audioContainer').classList.add('hidden');
+                toggleRecording();
+            });
+            
+            // Buton pentru salvarea înregistrării
+            document.getElementById('saveRecordingButton').addEventListener('click', function() {
+                // Salvarea înregistrării în recordedAnswers
+                if (currentQuestion) {
+                    const audioURL = document.getElementById('audioPlayer').src;
+                    recordedAnswers[currentQuestion.question] = audioURL;
+                    
+                    // Actualizare progres
+                    updateRecordedAnswersCount();
+                    
+                    // Afișare feedback
+                    alert('Înregistrarea ta a fost salvată!');
+                }
+            });
+            
+            // Buton pentru salvarea răspunsului
+            document.getElementById('saveAnswerBtn').addEventListener('click', function() {
+                if (currentQuestion) {
+                    savedAnswers[currentQuestion.question] = true;
+                    updateSavedAnswersCount();
+                    alert('Răspunsul a fost marcat ca salvat!');
+                }
+            });
+            
+            // Buton pentru întrebarea anterioară
+            document.getElementById('prevQuestionButton').addEventListener('click', function() {
+                showPreviousQuestion();
+            });
+            
+            // Buton pentru următoarea întrebare
+            document.getElementById('nextQuestionButton').addEventListener('click', function() {
+                showNextQuestion();
+            });
+            
+            // Inițializare: Arată toate întrebările
+            showQuestionsByCategory('all');
+            updateTotalQuestions();
+        });
+
+        // Afișare întrebări după categorie
+        function showQuestionsByCategory(category) {
+            const questionList = document.getElementById('questionList');
+            questionList.innerHTML = '';
+            
+            const filteredQuestions = category === 'all' 
+                ? qa_data 
+                : qa_data.filter(q => q.category === category);
+            
+            if (filteredQuestions.length === 0) {
+                questionList.innerHTML = '<p class="text-center text-gray-500 py-4">Nu s-au găsit întrebări în această categorie.</p>';
+                return;
+            }
+            
+            filteredQuestions.forEach(question => {
+                const questionCard = createQuestionCard(question);
+                questionList.appendChild(questionCard);
+            });
+        }
+
+        // Filtrare întrebări după termen de căutare
+        function filterQuestions(searchTerm) {
+            const questionList = document.getElementById('questionList');
+            questionList.innerHTML = '';
+            
+            // Filtrare după categorie și termen de căutare
+            let filteredQuestions = currentCategory === 'all' 
+                ? qa_data 
+                : qa_data.filter(q => q.category === currentCategory);
+            
+            // Filtrare suplimentară după termenul de căutare
+            if (searchTerm) {
+                filteredQuestions = filteredQuestions.filter(q => 
+                    q.question.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (filteredQuestions.length === 0) {
+                questionList.innerHTML = '<p class="text-center text-gray-500 py-4">Nu s-au găsit întrebări pentru această căutare.</p>';
+                return;
+            }
+            
+            filteredQuestions.forEach(question => {
+                const questionCard = createQuestionCard(question);
+                questionList.appendChild(questionCard);
+            });
+        }
+
+        // Creare card pentru întrebare
+        function createQuestionCard(question) {
+            const card = document.createElement('div');
+            card.className = 'question-card bg-gray-50 rounded-lg p-4 hover:bg-gray-100 cursor-pointer';
+            
+            // Indicator de status (vizualizat, înregistrat, salvat)
+            let statusIndicator = '';
+            if (savedAnswers[question.question]) {
+                statusIndicator = `<span class="inline-block px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 ml-2">Salvat</span>`;
+            } else if (recordedAnswers[question.question]) {
+                statusIndicator = `<span class="inline-block px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 ml-2">Înregistrat</span>`;
+            } else if (answeredQuestions.has(question.question)) {
+                statusIndicator = `<span class="inline-block px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 ml-2">Vizualizat</span>`;
+            }
+            
+            // Traducere categorie
+            const categoryLabels = {
+                'intro': 'Introducere',
+                'incident': 'Incident',
+                'alcohol': 'Alcool',
+                'recovery': 'Recuperare',
+                'future': 'Viitor'
+            };
+            
+            const categoryLabel = categoryLabels[question.category] || question.category;
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <span class="inline-block px-2 py-1 text-xs rounded-full bg-indigo-100 text-indigo-800 mb-2">${categoryLabel}</span>
+                    ${statusIndicator}
+                </div>
+                <h3 class="font-semibold text-gray-800 mb-1">${question.question}</h3>
+            `;
+            
+            card.addEventListener('click', () => showQuestionDetail(question));
+            
+            return card;
+        }
+
+        // Afișare detalii întrebare
+        function showQuestionDetail(question) {
+            currentQuestion = question;
+            
+            document.getElementById('questionListContainer').classList.add('hidden');
+            document.getElementById('questionDetail').classList.remove('hidden');
+            
+            // Completare conținut
+            document.getElementById('questionCategory').textContent = getCategoryLabel(question.category);
+            document.getElementById('questionTitle').textContent = question.question;
+            
+            // Afișare răspuns cu formatare HTML
+            document.getElementById('questionAnswer').innerHTML = question.answer;
+            
+            // Resetare conținut audio
+            document.getElementById('recordingContainer').classList.add('hidden');
+            document.getElementById('audioContainer').classList.add('hidden');
+            document.getElementById('recordingTime').textContent = '00:00';
+            recordingSeconds = 0;
+            
+            // Resetare buton de înregistrare
+            const recordButton = document.getElementById('recordButton');
+            recordButton.classList.remove('recording');
+            document.getElementById('recordingIndicator').classList.add('hidden');
+            
+            // Afișare audio existent, dacă există
+            if (recordedAnswers[question.question]) {
+                document.getElementById('recordingContainer').classList.remove('hidden');
+                document.getElementById('audioContainer').classList.remove('hidden');
+                document.getElementById('audioPlayer').src = recordedAnswers[question.question];
+            }
+            
+            // Marcare întrebare ca vizualizată și actualizare progres
+            if (!answeredQuestions.has(question.question)) {
+                answeredQuestions.add(question.question);
+                updateProgress();
+            }
+        }
+
+        // Traducere etichetă categorie
+        function getCategoryLabel(category) {
+            const labels = {
+                'intro': 'Introducere',
+                'incident': 'Incident',
+                'alcohol': 'Alcool',
+                'recovery': 'Recuperare',
+                'future': 'Viitor'
+            };
+            return labels[category] || category;
+        }
+
+        // Afișare următoarea întrebare
+        function showNextQuestion() {
+            if (!currentQuestion) return;
+            
+            // Găsirea indexului curent
+            const currentIndex = qa_data.findIndex(q => q.question === currentQuestion.question);
+            
+            // Următorul index (cu wrap-around)
+            const nextIndex = (currentIndex + 1) % qa_data.length;
+            
+            // Afișare următoarea întrebare
+            showQuestionDetail(qa_data[nextIndex]);
+        }
+
+        // Afișare întrebarea anterioară
+        function showPreviousQuestion() {
+            if (!currentQuestion) return;
+            
+            // Găsirea indexului curent
+            const currentIndex = qa_data.findIndex(q => q.question === currentQuestion.question);
+            
+            // Indexul anterior (cu wrap-around)
+            const prevIndex = (currentIndex - 1 + qa_data.length) % qa_data.length;
+            
+            // Afișare întrebarea anterioară
+            showQuestionDetail(qa_data[prevIndex]);
+        }
+
+        // Pornire/oprire înregistrare
+        function toggleRecording() {
+            const recordButton = document.getElementById('recordButton');
+            const recordingIndicator = document.getElementById('recordingIndicator');
+            
+            if (recordButton.classList.contains('recording')) {
+                // Oprire înregistrare
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                    clearInterval(recordingTimer);
+                }
+                recordButton.classList.remove('recording');
+                recordingIndicator.classList.add('hidden');
+            } else {
+                // Pornire înregistrare
+                recordButton.classList.add('recording');
+                recordingIndicator.classList.remove('hidden');
+                startRecording();
+            }
+        }
+
+        // Pornire înregistrare
+        function startRecording() {
+            audioChunks = [];
+            recordingSeconds = 0;
+            updateRecordingTime();
+            
+            // Pornire timer
+            recordingTimer = setInterval(function() {
+                recordingSeconds++;
+                updateRecordingTime();
+            }, 1000);
+            
+            // Cerere acces microfon
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.addEventListener('dataavailable', event => {
+                        audioChunks.push(event.data);
+                    });
+                    
+                    mediaRecorder.addEventListener('stop', () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        
+                        document.getElementById('audioPlayer').src = audioUrl;
+                        document.getElementById('audioContainer').classList.remove('hidden');
+                        
+                        // Oprire stream (eliberare microfon)
+                        stream.getTracks().forEach(track => track.stop());
+                    });
+                    
+                    mediaRecorder.start();
+                })
+                .catch(error => {
+                    console.error('Eroare la accesarea microfonului:', error);
+                    alert('Eroare la accesarea microfonului. Te rugăm să verifici permisiunile browserului.');
+                    
+                    // Resetare UI înregistrare
+                    const recordButton = document.getElementById('recordButton');
+                    recordButton.classList.remove('recording');
+                    document.getElementById('recordingIndicator').classList.add('hidden');
+                    clearInterval(recordingTimer);
+                });
+        }
+
+        // Actualizare timp înregistrare
+        function updateRecordingTime() {
+            const minutes = Math.floor(recordingSeconds / 60);
+            const seconds = recordingSeconds % 60;
+            document.getElementById('recordingTime').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Actualizare numărul total de întrebări
+        function updateTotalQuestions() {
+            const totalQuestions = qa_data.length;
+            document.getElementById('answeredQuestions').textContent = `0/${totalQuestions}`;
+        }
+
+        // Actualizare progres
+        function updateProgress() {
+            const totalQuestions = qa_data.length;
+            const answeredCount = answeredQuestions.size;
+            
+            document.getElementById('answeredQuestions').textContent = `${answeredCount}/${totalQuestions}`;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = `${(answeredCount / totalQuestions) * 100}%`;
+            
+            updateRecordedAnswersCount();
+            updateSavedAnswersCount();
+        }
+
+        // Actualizare număr răspunsuri înregistrate
+        function updateRecordedAnswersCount() {
+            const recordedCount = Object.keys(recordedAnswers).length;
+            document.getElementById('recordedAnswers').textContent = recordedCount;
+        }
+
+        // Actualizare număr răspunsuri salvate
+        function updateSavedAnswersCount() {
+            const savedCount = Object.keys(savedAnswers).length;
+            document.getElementById('savedAnswers').textContent = savedCount;
+        }
+    </script>
+</body>
+</html>
